@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will you be my Valentine?</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef5);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  width: 90%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+h1 {
+  font-size: 24px;
+}
+
+.buttons {
+  position: relative;
+  height: 120px;
+  margin-top: 30px;
+}
+
+button {
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+}
+
+#yes {
+  background: #ff4d88;
+  color: white;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#yes:hover {
+  transform: translateX(-50%) scale(1.2);
+}
+
+#no {
+  background: #ddd;
+  color: #333;
+}
+
+.hidden {
+  display: none;
+}
+
+img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <h1>Nirali 💖<br>Will you be my Valentine?</h1>
+
+  <div class="buttons">
+    <button id="yes">Yes 😍</button>
+    <button id="no">Not a chance 😏</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card hidden" id="page2">
+  <h1>YAYYYY 🎉💥</h1>
+  <p>
+    I knew it 😌❤️<br><br>
+    You just made my whole day, week, month… maybe life 🥹  
+    Can’t wait to celebrate Valentine’s with you 💕
+  </p>
+
+  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const music = document.getElementById("music");
+
+// Move "No" button
+noBtn.addEventListener("mouseover", () => {
+  const x = Math.random() * 220;
+  const y = Math.random() * 80;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+});
+
+// YES click
+yesBtn.addEventListener("click", () => {
+  page1.classList.add("hidden");
+  page2.classList.remove("hidden");
+
+  // Play music (mobile safe – starts on click)
+  music.play();
+
+  // Reaction tracking (YES count)
+  fetch("https://api.countapi.xyz/hit/rohan-valentine/yes");
+
+  confetti();
+});
+
+// Confetti
+function confetti() {
+  for (let i = 0; i < 120; i++) {
+    const c = document.createElement("div");
+    c.style.position = "fixed";
+    c.style.width = "8px";
+    c.style.height = "8px";
+    c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    c.style.left = Math.random()*100 + "vw";
+    c.style.top = "-10px";
+    c.style.opacity = 0.9;
+    document.body.appendChild(c);
+
+    let fall = setInterval(() => {
+      c.style.top = c.offsetTop + 6 + "px";
+      if (c.offsetTop > window.innerHeight) {
+        c.remove();
+        clearInterval(fall);
+      }
+    }, 20);
+  }
+}
+</script>
+
+</body>
+</html>
